@@ -1,0 +1,56 @@
+Accerciser
+Give your application an accessibility workout
+Accerciser Accessibility Explorer
+A list of plugins that are disabled by default
+A list of plugins that are disabled by default.
+Highlight duration
+The duration of the highlight box when selecting accessible nodes.
+Highlight fill color
+The color and opacity of the highlight fill.
+Highlight border color
+The color and opacity of the highlight border.
+Horizontal split
+Position of the horizontal split of the main window.
+Vertical split
+Position of the vertical split of the main window.
+Default window height
+The window height value.
+Default window width
+The window width value.
+The layout for the bottom panel
+The layout for the bottom panel pluginview.
+The layout for the top panel
+The layout for the top panel pluginview.
+Single layout view
+View plugins in a single layout.
+Available new pluginviews
+This list contains all the new available pluginviews
+The pluginview layout
+The default plugin layout for the top panel.
+Window height
+Window height value.
+Window width
+Window width value.
+Hotkey combination
+Hotkey combination for related action.
+API Browser
+Browse the various methods of the current accessible
+Hide private attributes
+Method
+Property
+Value
+IPython Console
+Interactive console for manipulating currently selected accessible
+Event monitor
+_Monitor Events
+C_lear Selection
+Everything
+Selected application
+Selected accessible
+Source
+Event Monitor
+Shows events as they occur from selected types and sources
+Highlight last event entry
+Start/stop event recording
+Clear event log
+Child count
