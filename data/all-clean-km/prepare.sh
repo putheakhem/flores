@@ -1,14 +1,12 @@
 #!/bin/bash
 
-# configure your python path if you have many python version
+# to configure
 py=python3
+subword=../../thirdparty/subword-nmt/subword_nmt
 
 data=$(dirname "$0")
 root=$data/../..
 scripts=$root/scripts
-
-spm_train=$scripts/spm_train.py
-spm_encode=$scripts/spm_encode.py
 
 models=$data/models
 mkdir -p $models
@@ -31,36 +29,72 @@ $py $scripts/deduplicate.py \
 # training subword model, seperate for source and target languages
 # recommand using training data
 # source language
-$py $spm_train \
- --input=$data/data-dpl.$src \
- --model_prefix=$models/spm.$src \
- --vocab_size=$spm_size_src \
- --character_coverage=1.0 \
- --model_type=bpe || exit 0
+bpe_size_src=8000
+bpe_size_trg=8000
+
+# source language
+$py $subword/learn_bpe.py \
+ -s $bpe_size_src \
+ < $data/data-dpl.$src > $models/bpe.$src \
+ || exit 0
 
 # target language
-$py $spm_train \
- --input=$data/data-dpl.$trg \
- --model_prefix=$models/spm.$trg \
- --vocab_size=$spm_size_trg \
- --character_coverage=1.0 \
- --model_type=bpe || exit 0
+$py $subword/learn_bpe.py \
+ -s $bpe_size_trg \
+ < $data/data-dpl.$trg > $models/bpe.$trg \
+ || exit 0
 
 # apply subword to train, dev, test, and other data
-# `--min-len` and `--max-len` should be used only when applying on train data
 # source language
-$py $spm_encode \
- --model $models/spm.$src.model \
- --output_format=piece \
- --inputs $data/data-dpl.$src \
- --outputs $data/data-spm.$src \
- --min-len $train_minlen --max-len $train_maxlen || exit 0
+$py $subword/apply_bpe.py \
+ -c $models/bpe.$src \
+ < $data/data-dpl.$src > $data/data-bpe.$src \
+ || exit 0
 
-$py $spm_encode \
- --model $models/spm.$trg.model \
- --output_format=piece \
- --inputs $data/data-dpl.$trg \
- --outputs $data/data-spm.$trg \
- --min-len $train_minlen --max-len $train_maxlen || exit 0
+# target language
+$py $subword/apply_bpe.py \
+ -c $models/bpe.$trg \
+ < $data/data-dpl.$trg > $data/data-bpe.$trg \
+ || exit 0
+
+###########################
+# SentencePiece: Not used
+# # training subword model, seperate for source and target languages
+# # recommand using training data
+# # source language
+# spm_train=$scripts/spm_train.py
+# spm_encode=$scripts/spm_encode.py
+# 
+# $py $spm_train \
+#  --input=$data/data-dpl.$src \
+#  --model_prefix=$models/spm.$src \
+#  --vocab_size=$spm_size_src \
+#  --character_coverage=1.0 \
+#  --model_type=bpe || exit 0
+# 
+# # target language
+# $py $spm_train \
+#  --input=$data/data-dpl.$trg \
+#  --model_prefix=$models/spm.$trg \
+#  --vocab_size=$spm_size_trg \
+#  --character_coverage=1.0 \
+#  --model_type=bpe || exit 0
+# 
+# # apply subword to train, dev, test, and other data
+# # `--min-len` and `--max-len` should be used only when applying on train data
+# # source language
+# $py $spm_encode \
+#  --model $models/spm.$src.model \
+#  --output_format=piece \
+#  --inputs $data/data-dpl.$src \
+#  --outputs $data/data-spm.$src \
+#  --min-len $train_minlen --max-len $train_maxlen || exit 0
+# 
+# $py $spm_encode \
+#  --model $models/spm.$trg.model \
+#  --output_format=piece \
+#  --inputs $data/data-dpl.$trg \
+#  --outputs $data/data-spm.$trg \
+#  --min-len $train_minlen --max-len $train_maxlen || exit 0
 
 
