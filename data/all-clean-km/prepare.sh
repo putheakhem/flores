@@ -4,6 +4,7 @@
 py=python3
 subword=../../thirdparty/subword-nmt/subword_nmt
 
+$SRCS="km"
 data=$(dirname "$0")
 root=$data/../..
 scripts=$root/scripts
@@ -56,6 +57,21 @@ $py $subword/apply_bpe.py \
  -c $models/bpe.$trg \
  < $data/data-dpl.$trg > $data/data-bpe.$trg \
  || exit 0
+
+echo "Preprocessing"
+for SOMESRC in $SRCS; do
+  echo "Binarizing ${SOMESRC}"
+  fairseq-preprocess \
+    --source-lang $SOMESRC --target-lang en \
+    --destdir $data \
+    --joined-dictionary \
+    --workers 4 \
+    --trainpref $data/train.bpe.$SOMESRC-en \
+    --validpref $data/valid.bpe.$SOMESRC-en \
+    --testpref  $data/test.bpe.$SOMESRC-en \
+    --srcdict $data/vocab
+done
+
 
 ###########################
 # SentencePiece: Not used
