@@ -63,10 +63,10 @@ for SOMESRC in $SRCS; do
   echo "Binarizing ${SOMESRC}"
   fairseq-preprocess \
     --source-lang $SOMESRC --target-lang en \
-    --destdir $data/model \
+    --destdir $data/models \
     --joined-dictionary \
     --workers 4 \
-    --trainpref $data/model/bpe.$SOMESRC
+    --trainpref $data/models/bpe
 done
 
 
