@@ -42,8 +42,7 @@ $py $subword/learn_bpe.py \
 # target language
 $py $subword/learn_bpe.py \
  -s $bpe_size_trg \
- < $data/train-dpl.$trg > $models/bpe.$trg \
- || exit 0
+ < $data/train-dpl.$trg > $models/bpe.$trg || exit 0
 
 # apply subword to train, dev, test, and other data
 # source language
@@ -51,16 +50,14 @@ $py $subword/apply_bpe.py \
  -c $models/bpe.$src \
  < $data/train-dpl.$src > $data/train-bpe.$src \
  < $data/valid.$src > $data/valid-bpe.$src \
- < $data/test.$src > $data/test-bpe.$src 
- || exit 0
+ < $data/test.$src > $data/test-bpe.$src || exit 0
 
 # target language
 $py $subword/apply_bpe.py \
  -c $models/bpe.$trg \
  < $data/train-dpl.$trg > $data/train-bpe.$trg \
  < $data/valid.$trg > $data/train-bpe.$trg \
- < $data/test.$trg > $data/test-bpe.$trg
- || exit 0
+ < $data/test.$trg > $data/test-bpe.$trg || exit 0
 
 
  # Valid 
