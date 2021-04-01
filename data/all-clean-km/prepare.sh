@@ -71,7 +71,7 @@ for SOMESRC in $SRCS; do
     --workers 4 \
     --trainpref $data/train-bpe \
     --validpref $data/valid-bpe \
-    --validpref $data/test-bpe
+    --testpref $data/test-bpe
 done
 
 
