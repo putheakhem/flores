@@ -66,9 +66,9 @@ for SOMESRC in $SRCS; do
     --destdir $data \
     --joined-dictionary \
     --workers 4 \
-    --trainpref $data/train.bpe \
-    --validpref $data/valid.bpe \
-    --testpref  $data/test.bpe \
+    --trainpref $models/train.bpe \
+    --validpref $models/valid.bpe \
+    --testpref  $models/test.bpe \
 done
 
 
