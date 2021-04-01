@@ -50,14 +50,20 @@ $py $subword/learn_bpe.py \
 $py $subword/apply_bpe.py \
  -c $models/bpe.$src \
  < $data/train-dpl.$src > $data/train-bpe.$src \
+ < $data/valid.$src > $data/valid-bpe.$src \
+ < $data/test.$src > $data/test-bpe.$src 
  || exit 0
 
 # target language
 $py $subword/apply_bpe.py \
  -c $models/bpe.$trg \
  < $data/train-dpl.$trg > $data/train-bpe.$trg \
+ < $data/valid.$trg > $data/train-bpe.$trg \
+ < $data/test.$trg > $data/test-bpe.$trg
  || exit 0
 
+
+ # Valid 
 echo "Preprocessing"
 for SOMESRC in $SRCS; do
   echo "Binarizing ${SOMESRC}"
@@ -66,9 +72,9 @@ for SOMESRC in $SRCS; do
     --destdir $data \
     --joined-dictionary \
     --workers 4 \
-    --trainpref $models/train.bpe \
-    --validpref $models/valid.bpe \
-    --testpref  $models/test.bpe \
+    --trainpref $data/train-bpe \
+    --validpref $data/valid-bpe \
+    --validpref $data/test-bpe
 done
 
 
