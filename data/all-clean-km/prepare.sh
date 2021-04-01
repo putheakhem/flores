@@ -66,8 +66,12 @@ for SOMESRC in $SRCS; do
     --destdir $data/models \
     --joined-dictionary \
     --workers 4 \
-    --trainpref $data/models/bpe
+    --trainpref $data/train.bpe.$SOMESRC-en \
+    --validpref $data/valid.bpe.$SOMESRC-en \
+    --testpref  $data/test.bpe.$SOMESRC-en \
+    --srcdict $data/vocab
 done
+mv "$data/dict.en.txt-moved" "$data/dict.en.txt"
 
 
 ###########################
