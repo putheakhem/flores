@@ -66,7 +66,7 @@ for SOMESRC in $SRCS; do
     --destdir $data/model \
     --joined-dictionary \
     --workers 4 \
-    --trainpref $data/model/train.bpe.$SOMESRC
+    --trainpref $data/model/bpe.$SOMESRC
 done
 
 
