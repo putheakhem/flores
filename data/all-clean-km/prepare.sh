@@ -4,7 +4,7 @@
 py=python3
 subword=../../thirdparty/subword-nmt/subword_nmt
 
-$SRCS="km"
+SRCS="km"
 data=$(dirname "$0")
 root=$data/../..
 scripts=$root/scripts
