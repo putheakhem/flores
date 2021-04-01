@@ -22,10 +22,10 @@ train_maxlen=250  # remove sentences with >250 BPE tokens
 
 # remove doublicate
 $py $scripts/deduplicate.py \
- --input-src  $data/data-true.$src \
- --input-tgt  $data/data-true.$trg \
- --output-src $data/data-dpl.$src \
- --output-tgt $data/data-dpl.$trg || exit 0
+ --input-src  $data/train.$src \
+ --input-tgt  $data/train.$trg \
+ --output-src $data/train-dpl.$src \
+ --output-tgt $data/train-dpl.$trg || exit 0
 
 # training subword model, seperate for source and target languages
 # recommand using training data
@@ -36,26 +36,26 @@ bpe_size_trg=8000
 # source language
 $py $subword/learn_bpe.py \
  -s $bpe_size_src \
- < $data/data-dpl.$src > $models/bpe.$src \
+ < $data/train-dpl.$src > $models/bpe.$src \
  || exit 0
 
 # target language
 $py $subword/learn_bpe.py \
  -s $bpe_size_trg \
- < $data/data-dpl.$trg > $models/bpe.$trg \
+ < $data/train-dpl.$trg > $models/bpe.$trg \
  || exit 0
 
 # apply subword to train, dev, test, and other data
 # source language
 $py $subword/apply_bpe.py \
  -c $models/bpe.$src \
- < $data/data-dpl.$src > $data/data-bpe.$src \
+ < $data/train-dpl.$src > $data/train-bpe.$src \
  || exit 0
 
 # target language
 $py $subword/apply_bpe.py \
  -c $models/bpe.$trg \
- < $data/data-dpl.$trg > $data/data-bpe.$trg \
+ < $data/train-dpl.$trg > $data/train-bpe.$trg \
  || exit 0
 
 echo "Preprocessing"
@@ -66,10 +66,7 @@ for SOMESRC in $SRCS; do
     --destdir $data \
     --joined-dictionary \
     --workers 4 \
-    --trainpref $data/train.bpe.$SOMESRC-en \
-    --validpref $data/valid.bpe.$SOMESRC-en \
-    --testpref  $data/test.bpe.$SOMESRC-en \
-    --srcdict $data/vocab
+    --trainpref $data/train.bpe.$SOMESRC-en
 done
 
 
