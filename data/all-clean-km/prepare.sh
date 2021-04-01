@@ -63,15 +63,13 @@ for SOMESRC in $SRCS; do
   echo "Binarizing ${SOMESRC}"
   fairseq-preprocess \
     --source-lang $SOMESRC --target-lang en \
-    --destdir $data/models \
+    --destdir $data \
     --joined-dictionary \
     --workers 4 \
-    --trainpref $data/train.bpe.$SOMESRC-en \
-    --validpref $data/valid.bpe.$SOMESRC-en \
-    --testpref  $data/test.bpe.$SOMESRC-en \
-    --srcdict $data/vocab
+    --trainpref $data/train.bpe \
+    --validpref $data/valid.bpe \
+    --testpref  $data/test.bpe \
 done
-mv "$data/dict.en.txt-moved" "$data/dict.en.txt"
 
 
 ###########################
