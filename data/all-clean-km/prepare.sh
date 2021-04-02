@@ -78,6 +78,7 @@ echo "Binarizing ${SOMESRC}"
 fairseq-preprocess \
   --source-lang $src --target-lang $trg \
   --destdir $data/data_bin \
+  --joined-dictionary \
   --workers 4 \
   --trainpref $data/train-bpe \
   --validpref $data/valid-bpe \
